@@ -1,6 +1,4 @@
-Voici un guide complet et exhaustif pour créer un projet Maven de calculatrice avec Jenkins, structuré en trois parties. La première partie se concentre sur l'installation des prérequis, la création manuelle et automatique de la structure de projet, et les commandes Maven de base.
-
-### Partie 1 : Pratique 3 – Jenkins + Maven (1/3)
+# Partie 1 : Pratique 3 – Jenkins + Maven (1/3)
 #### Introduction à MAVEN - Projet de calculatrice
 
 **README.md Contenu**
