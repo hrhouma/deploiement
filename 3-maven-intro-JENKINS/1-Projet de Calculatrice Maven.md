@@ -1,12 +1,7 @@
 # Partie 1 : Pratique 3 – Jenkins + Maven (1/3)
-#### Introduction à MAVEN - Projet de calculatrice
+## Introduction à MAVEN - Projet de calculatrice
 
-**README.md Contenu**
-
-```markdown
-# Projet de Calculatrice Maven
-
-Ce projet démontre l'utilisation de Maven pour gérer le cycle de vie du développement d'une application calculatrice simple en Java.
+- Ce projet démontre l'utilisation de Maven pour gérer le cycle de vie du développement d'une application calculatrice simple en Java.
 
 ## Prérequis
 
