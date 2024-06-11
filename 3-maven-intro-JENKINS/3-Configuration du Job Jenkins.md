@@ -1,14 +1,10 @@
-### README.md pour l'Intégration avec Jenkins
-
-Ce guide explique comment configurer et reproduire le cycle de vie Maven de votre projet de calculatrice en utilisant Jenkins et un `Jenkinsfile`.
-
----
+# Intégration avec Jenkins
 
 ## Prérequis
 
 - Jenkins installé et configuré.
 - Java JDK 1.8 ou supérieur installé sur l'agent Jenkins.
-- Maven 3.6.3 ou supérieur installé sur l'agent Jenkins.
+- Maven 3.9 ou supérieur installé sur l'agent Jenkins.
 - Accès à un dépôt de code source (par exemple, GitHub) contenant votre projet Maven.
 
 ### Configuration du Job Jenkins
