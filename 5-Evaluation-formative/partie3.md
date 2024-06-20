@@ -169,7 +169,7 @@ docker ps
 
 En suivant ce tutoriel, vous avez appris à ajouter votre projet à Git et à configurer une pipeline Jenkins pour vérifier les modifications et effectuer des builds automatiquement toutes les 5 minutes. Vous pouvez désormais automatiser le déploiement de votre application Flask avec PostgreSQL et Redis.
 
-# Annexe: Configuration de Docker pour Jenkins
+# Annexe 1: Configuration de Docker pour Jenkins
 
 Pour utiliser Docker avec Jenkins, certaines configurations sont nécessaires. Voici les étapes détaillées pour s'assurer que Jenkins peut interagir avec Docker correctement.
 
@@ -315,3 +315,167 @@ docker ps
   - **Solution :** Vérifiez que l'utilisateur Jenkins est bien membre du groupe Docker en utilisant la commande `groups` comme montré ci-dessus. Assurez-vous également que le démon Docker est en cours d'exécution.
 
 En suivant ces étapes, vous vous assurerez que Jenkins a les permissions nécessaires pour interagir avec Docker, ce qui est crucial pour que vos pipelines CI/CD fonctionnent correctement.
+
+
+# Annexe 2: 
+
+# Récupérer et Configurer les Informations d'Authentification Docker dans Jenkins
+
+Pour utiliser les identifiants Docker Hub dans votre `Jenkinsfile`, vous devez d'abord les ajouter dans Jenkins et les récupérer correctement dans votre pipeline. Voici les étapes détaillées pour ajouter et configurer ces informations :
+
+# Étape 1: Ajouter des Identifiants Docker Hub dans Jenkins
+
+1. **Accéder à Jenkins :**
+
+   - Ouvrez votre navigateur et accédez à Jenkins à l'adresse `http://your-jenkins-url:8080/`.
+
+2. **Accéder à la Gestion des Identifiants :**
+
+   - Allez dans `Manage Jenkins` > `Manage Credentials`.
+
+3. **Ajouter de Nouveaux Identifiants :**
+
+   - Cliquez sur `(global)` pour ajouter des identifiants globalement.
+   - Cliquez sur `Add Credentials`.
+   - Sélectionnez `Username with password`.
+   - Remplissez le formulaire avec vos informations Docker Hub :
+     - **Username:** Votre nom d'utilisateur Docker Hub.
+     - **Password:** Votre mot de passe Docker Hub.
+     - **ID:** Donnez un ID descriptif, par exemple, `docker-hub-creds`.
+
+   - Cliquez sur `OK` pour enregistrer les identifiants.
+
+# Étape 2: Configurer le Jenkinsfile pour Utiliser les Identifiants Docker Hub
+
+1. **Créer ou Modifier le Jenkinsfile à la racine de votre projet :**
+
+   ```sh
+   touch Jenkinsfile
+   ```
+
+2. **Ajouter le contenu suivant dans le Jenkinsfile :**
+
+   ```groovy
+   pipeline {
+       agent any
+
+       triggers {
+           pollSCM('H/5 * * * *') // Vérifie les modifications toutes les 5 minutes
+       }
+
+       environment {
+           DOCKER_CREDENTIALS_ID = 'docker-hub-creds' // ID des identifiants Docker Hub ajoutés dans Jenkins
+           DOCKER_IMAGE = 'yourusername/yourimage:latest' // Nom de l'image Docker à construire et pousser
+       }
+
+       stages {
+           stage('Clone Repository') {
+               steps {
+                   git branch: 'master', url: 'https://github.com/yourusername/yourrepository.git'
+               }
+           }
+           stage('Build Docker Images') {
+               steps {
+                   script {
+                       docker.build(env.DOCKER_IMAGE) // Construit l'image Docker
+                   }
+               }
+           }
+           stage('Push to Docker Hub') {
+               steps {
+                   script {
+                       docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_CREDENTIALS_ID) {
+                           docker.image(env.DOCKER_IMAGE).push() // Pousse l'image Docker vers Docker Hub
+                       }
+                   }
+               }
+           }
+           stage('Run Containers') {
+               steps {
+                   sh 'docker-compose up -d' // Démarre les conteneurs
+               }
+           }
+       }
+   }
+   ```
+
+# Exemple Complet des Commandes
+
+Voici un récapitulatif des étapes pour ajouter les identifiants Docker Hub dans Jenkins et configurer le Jenkinsfile :
+
+# Ajouter des Identifiants Docker Hub dans Jenkins
+
+1. **Accéder à Jenkins :**
+   ```sh
+   http://your-jenkins-url:8080/
+   ```
+
+2. **Ajouter des Identifiants :**
+   - `Manage Jenkins` > `Manage Credentials` > `(global)` > `Add Credentials`
+   - Sélectionnez `Username with password` et remplissez les informations :
+     - **Username:** `VotreNomUtilisateurDockerHub`
+     - **Password:** `VotreMotDePasseDockerHub`
+     - **ID:** `docker-hub-creds`
+   - Cliquez sur `OK`.
+
+# Configurer le Jenkinsfile
+
+1. **Créer ou Modifier le Jenkinsfile :**
+   ```sh
+   touch Jenkinsfile
+   ```
+
+2. **Ajouter le Contenu suivant dans le Jenkinsfile :**
+
+   ```groovy
+   pipeline {
+       agent any
+
+       triggers {
+           pollSCM('H/5 * * * *') // Vérifie les modifications toutes les 5 minutes
+       }
+
+       environment {
+           DOCKER_CREDENTIALS_ID = 'docker-hub-creds' // ID des identifiants Docker Hub
+           DOCKER_IMAGE = 'yourusername/yourimage:latest' // Nom de l'image Docker à construire et pousser
+       }
+
+       stages {
+           stage('Clone Repository') {
+               steps {
+                   git branch: 'master', url: 'https://github.com/yourusername/yourrepository.git'
+               }
+           }
+           stage('Build Docker Images') {
+               steps {
+                   script {
+                       docker.build(env.DOCKER_IMAGE) // Construit l'image Docker
+                   }
+               }
+           }
+           stage('Push to Docker Hub') {
+               steps {
+                   script {
+                       docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_CREDENTIALS_ID) {
+                           docker.image(env.DOCKER_IMAGE).push() // Pousse l'image Docker vers Docker Hub
+                       }
+                   }
+               }
+           }
+           stage('Run Containers') {
+               steps {
+                   sh 'docker-compose up -d' // Démarre les conteneurs
+               }
+           }
+       }
+   }
+   ```
+
+# Résumé
+
+En suivant ces étapes, vous avez appris à :
+
+1. Ajouter des identifiants Docker Hub dans Jenkins.
+2. Configurer un Jenkinsfile pour utiliser ces identifiants et pousser les images Docker vers Docker Hub.
+
+Avec cette configuration, Jenkins vérifiera automatiquement les modifications dans votre dépôt SCM, construira l'image Docker et la poussera vers Docker Hub en utilisant les identifiants configurés.
