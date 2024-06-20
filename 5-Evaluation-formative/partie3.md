@@ -168,3 +168,150 @@ docker ps
 ### Conclusion
 
 En suivant ce tutoriel, vous avez appris à ajouter votre projet à Git et à configurer une pipeline Jenkins pour vérifier les modifications et effectuer des builds automatiquement toutes les 5 minutes. Vous pouvez désormais automatiser le déploiement de votre application Flask avec PostgreSQL et Redis.
+
+# Annexe: Configuration de Docker pour Jenkins
+
+Pour utiliser Docker avec Jenkins, certaines configurations sont nécessaires. Voici les étapes détaillées pour s'assurer que Jenkins peut interagir avec Docker correctement.
+
+#### Prérequis
+
+1. **Docker doit être installé sur le serveur Jenkins :**
+   - Jenkins utilisera Docker pour construire et exécuter les conteneurs. Assurez-vous que Docker est installé et configuré sur la machine où Jenkins s'exécute.
+
+2. **Permissions Docker pour l'utilisateur Jenkins :**
+   - L'utilisateur sous lequel Jenkins s'exécute doit avoir les permissions nécessaires pour accéder au démon Docker (`docker.sock`).
+
+3. **Installer le plugin Docker dans Jenkins :**
+   - Installez le plugin Docker dans Jenkins pour permettre à Jenkins de communiquer avec Docker.
+
+#### Étapes pour Configurer Docker avec Jenkins
+
+1. **Installer Docker sur le serveur Jenkins :**
+
+   Suivez les instructions pour installer Docker sur votre système d'exploitation. Voici un exemple pour Ubuntu :
+
+   ```sh
+   sudo apt-get update
+   sudo apt-get install \
+       ca-certificates \
+       curl \
+       gnupg \
+       lsb-release
+
+   sudo mkdir -p /etc/apt/keyrings
+   curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+   echo \
+     "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+     $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+   sudo apt-get update
+   sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+   sudo usermod -aG docker $USER
+   ```
+
+   Après avoir installé Docker, redémarrez votre machine ou déconnectez-vous et reconnectez-vous pour que les changements de groupe prennent effet.
+
+2. **Configurer l'utilisateur Jenkins pour utiliser Docker :**
+
+   - **Identifier l'utilisateur Jenkins :**
+     Jenkins s'exécute généralement sous un utilisateur spécifique, souvent nommé `jenkins`. Pour vérifier l'utilisateur, vous pouvez consulter le fichier de configuration de Jenkins ou utiliser la commande suivante pour voir sous quel utilisateur Jenkins s'exécute :
+
+     ```sh
+     ps aux | grep jenkins
+     ```
+
+   - **Ajouter l'utilisateur Jenkins au groupe Docker :**
+     Utilisez la commande suivante pour ajouter l'utilisateur `jenkins` au groupe `docker` :
+
+     ```sh
+     sudo usermod -aG docker jenkins
+     ```
+
+   - **Redémarrer Jenkins pour appliquer les changements :**
+     Après avoir ajouté l'utilisateur Jenkins au groupe Docker, redémarrez le service Jenkins pour que les modifications prennent effet :
+
+     ```sh
+     sudo systemctl restart jenkins
+     ```
+
+3. **Installer le plugin Docker dans Jenkins :**
+
+   - Accédez à Jenkins : `http://your-jenkins-url:8080/`
+   - Allez dans `Manage Jenkins` > `Manage Plugins`
+   - Sous l'onglet `Available`, recherchez `Docker` et installez le plugin `Docker`.
+
+4. **Configurer Jenkins pour utiliser Docker :**
+
+   - Accédez à `Manage Jenkins` > `Configure System`.
+   - Faites défiler jusqu'à la section `Cloud` et ajoutez un nouveau cloud `Docker`.
+   - Configurez l'URL Docker (par exemple, `unix:///var/run/docker.sock` pour une installation locale de Docker).
+
+#### Vérification de la Configuration
+
+1. **Vérifier les Permissions Docker pour l'utilisateur Jenkins :**
+
+   - **Vérifier que l'utilisateur Jenkins a bien été ajouté au groupe Docker :**
+     Connectez-vous en tant qu'utilisateur Jenkins (ou exécutez une commande en tant qu'utilisateur Jenkins) et vérifiez les groupes de l'utilisateur :
+
+     ```sh
+     su - jenkins
+     groups
+     ```
+
+     Vous devriez voir `docker` dans la liste des groupes.
+
+   - **Tester l'accès Docker pour l'utilisateur Jenkins :**
+     Toujours en tant qu'utilisateur Jenkins, essayez d'exécuter une commande Docker pour vérifier que l'accès fonctionne :
+
+     ```sh
+     docker ps
+     ```
+
+     La commande devrait lister les conteneurs en cours d'exécution sans erreurs de permission.
+
+2. **Vérifier les builds Jenkins :**
+
+   - Lancez un build manuellement en cliquant sur `Build Now`.
+   - Vérifiez que Jenkins clone le dépôt, construit l'image Docker et lance les conteneurs sans erreurs.
+
+3. **Vérifier les conteneurs Docker :**
+
+   - Assurez-vous que les conteneurs sont en cours d'exécution en utilisant la commande suivante :
+
+     ```sh
+     docker ps
+     ```
+
+### Exemple Complet des Commandes
+
+Voici un récapitulatif des commandes pour vérifier et configurer les permissions Docker pour l'utilisateur Jenkins :
+
+```sh
+# Étape 1: Vérifier l'utilisateur sous lequel Jenkins s'exécute
+ps aux | grep jenkins
+
+# Étape 2: Ajouter l'utilisateur Jenkins au groupe Docker
+sudo usermod -aG docker jenkins
+
+# Étape 3: Redémarrer Jenkins pour appliquer les changements
+sudo systemctl restart jenkins
+
+# Étape 4: Vérifier que l'utilisateur Jenkins a bien été ajouté au groupe Docker
+su - jenkins
+groups
+
+# Étape 5: Tester l'accès Docker pour l'utilisateur Jenkins
+docker ps
+```
+
+### Résolution des Problèmes Courants
+
+- **Problème : L'utilisateur Jenkins n'a toujours pas accès à Docker après avoir été ajouté au groupe Docker.**
+  - **Solution :** Assurez-vous de redémarrer Jenkins après avoir ajouté l'utilisateur au groupe Docker. Si le problème persiste, redémarrez la machine pour garantir que les changements de groupe sont pris en compte.
+
+- **Problème : Erreur de permission lors de l'exécution des commandes Docker.**
+  - **Solution :** Vérifiez que l'utilisateur Jenkins est bien membre du groupe Docker en utilisant la commande `groups` comme montré ci-dessus. Assurez-vous également que le démon Docker est en cours d'exécution.
+
+En suivant ces étapes, vous vous assurerez que Jenkins a les permissions nécessaires pour interagir avec Docker, ce qui est crucial pour que vos pipelines CI/CD fonctionnent correctement.
