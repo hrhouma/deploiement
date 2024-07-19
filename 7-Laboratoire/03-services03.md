@@ -1,4 +1,4 @@
-Voici un tableau détaillant chaque service AWS utilisé dans le projet, son rôle, et ce qu'il fait :
+
 
 | **Service AWS**                | **Rôle**                                                         | **Description**                                                                                                                                       |
 |--------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -25,3 +25,66 @@ Voici un tableau détaillant chaque service AWS utilisé dans le projet, son rô
 8. **CodeDeploy** : Automatiser les déploiements des microservices sur ECS, permettant des mises à jour continues et fiables.
 9. **RDS (Relational Database Service)** : Fournit une base de données relationnelle pour stocker les données de l'application, telle que les informations sur les fournisseurs.
 10. **CloudWatch** : Surveille les performances des services et collecte les journaux, aidant à détecter et à diagnostiquer les problèmes.
+
+
+# Schéma de l'architecture proposée :
+
+```
++--------------------+                  +--------------------+
+|    Utilisateurs    |                  |    Utilisateurs    |
+|  (Clients & Employés)                 |      (Clients)     |
++--------------------+                  +--------------------+
+            |                                 |
+            |                                 |
+            |                                 |
+        +------------------------------------------+
+        |      Application Load Balancer (ALB)     |
+        +------------------------------------------+
+               |                       |
+               |                       |
++------------------------+    +------------------------+
+|    Employee Service    |    |    Customer Service    |
+|    (ECS Fargate)       |    |    (ECS Fargate)       |
++------------------------+    +------------------------+
+            |                                 |
+            |                                 |
++------------------------+    +------------------------+
+|    Docker Containers   |    |    Docker Containers   |
++------------------------+    +------------------------+
+            |                                 |
+            |                                 |
++------------------------+    +------------------------+
+|         ECR            |    |         ECR            |
+| (Elastic Container     |    | (Elastic Container     |
+|     Registry)          |    |     Registry)          |
++------------------------+    +------------------------+
+            |                                 |
+            |                                 |
++------------------------+    +------------------------+
+|       CodeCommit       |    |       CodeCommit       |
++------------------------+    +------------------------+
+            |                                 |
+            |                                 |
++------------------------+    +------------------------+
+|       CodePipeline     |    |       CodePipeline     |
++------------------------+    +------------------------+
+            |                                 |
+            |                                 |
++------------------------+    +------------------------+
+|       CodeDeploy       |    |       CodeDeploy       |
++------------------------+    +------------------------+
+            |                                 |
+            |                                 |
++------------------------+    +------------------------+
+|          RDS           |    |          RDS           |
+| (Relational Database   |    | (Relational Database   |
+|       Service)         |    |       Service)         |
++------------------------+    +------------------------+
+            |                                 |
+            |                                 |
++------------------------+    +------------------------+
+|       CloudWatch       |    |       CloudWatch       |
+|    (Monitoring &       |    |    (Monitoring &       |
+|     Logging)           |    |     Logging)           |
++------------------------+    +------------------------+
+```
