@@ -1,4 +1,4 @@
-Voici un schéma simplifié en ASCII de l'architecture proposée :
+# Schéma de l'architecture proposée :
 
 ```
 +--------------------+                  +--------------------+
@@ -60,4 +60,4 @@ Voici un schéma simplifié en ASCII de l'architecture proposée :
 +------------------------+    +------------------------+
 ```
 
-Ce diagramme illustre les principaux composants de l'architecture, leur interconnexion, et comment les services AWS sont utilisés pour gérer les microservices, le déploiement, et la surveillance.
+
