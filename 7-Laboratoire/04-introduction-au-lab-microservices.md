@@ -1,42 +1,44 @@
-Le laboratoire sur les microservices et Docker avec AWS s'intègre étroitement au cours de déploiement dans le programme Big Data. Voici comment ce laboratoire renforce les compétences enseignées dans ce cadre.
+#  1 - Objectif de ce laboratoire :
 
-## **Relation avec le Cours de Déploiement**
+- Le présent laboratoire, centré sur l'utilisation des microservices et de Docker en conjonction avec AWS, s'inscrit de manière cohérente et approfondie dans le cadre du cours de déploiement dispensé au sein du programme Big Data. Il vise à illustrer et à renforcer de manière pratique les compétences théoriques enseignées, en offrant une application concrète des concepts de conteneurisation, de déploiement de microservices, et de gestion d'infrastructures cloud. Par ce biais, les étudiants peuvent approfondir leur compréhension des méthodes modernes de gestion des applications Big Data, en particulier en ce qui concerne la scalabilité, la résilience et l'efficacité opérationnelle.
 
-### **1. Compréhension des Architectures**
+# 2 - Concepts visées
+
+## **1. Compréhension des Architectures**
 - **Concepts de base** : Le cours de déploiement enseigne les différentes architectures de systèmes, notamment les architectures monolithiques et microservices. Le laboratoire permet aux étudiants de voir concrètement comment une application peut être transformée d'une architecture monolithique à une architecture de microservices.
 - **Avantages des Microservices** : En déployant des microservices, les étudiants apprennent les avantages pratiques tels que la scalabilité, la résilience et la flexibilité, qui sont essentiels pour gérer des applications Big Data.
 
-### **2. Utilisation de Docker**
+## **2. Utilisation de Docker**
 - **Conteneurisation** : Docker est un outil clé pour le déploiement d'applications. Dans le cadre du programme Big Data, savoir conteneuriser des applications permet de gérer efficacement les ressources et de déployer des applications de manière cohérente dans différents environnements.
 - **Gestion des Conteneurs** : Les étudiants apprennent à créer, déployer et gérer des conteneurs Docker, ce qui est crucial pour les environnements de production Big Data.
 
-### **3. Déploiement sur AWS**
+## **3. Déploiement sur AWS**
 - **Amazon ECS** : Le cours de déploiement couvre l'utilisation de services cloud pour le déploiement d'applications. En utilisant Amazon ECS, les étudiants apprennent à déployer des microservices de manière scalable et résiliente, en utilisant les meilleures pratiques de l'industrie.
 - **Mise à l'Échelle** : Le laboratoire montre comment mettre à l'échelle les microservices indépendamment, une compétence essentielle pour gérer des charges de travail variables dans les applications Big Data.
 
-### **4. Gestion et Surveillance**
+## **4. Gestion et Surveillance**
 - **AWS CloudWatch** : La surveillance des performances des microservices via AWS CloudWatch est une compétence clé pour assurer la disponibilité et la performance des applications Big Data.
 - **Mise à Jour et Maintenance** : Le laboratoire enseigne également comment mettre à jour et maintenir des microservices déployés, ce qui est crucial pour les environnements de production.
 
-## **Étapes du Laboratoire en Relation avec le Cours**
+# 3 - Étapes du Laboratoire en Relation avec le Cours**
 
-### **Étape 1 : Introduction aux Microservices**
+# **Étape 1 : Introduction aux Microservices**
 - **Cours** : Introduction aux architectures de systèmes.
 - **Laboratoire** : Compréhension des microservices et de leurs avantages.
 
-### **Étape 2 : Déploiement d'une Application Monolithique dans Docker**
+# **Étape 2 : Déploiement d'une Application Monolithique dans Docker**
 - **Cours** : Utilisation de Docker pour la conteneurisation.
 - **Laboratoire** : Création et déploiement d'une image Docker pour une application monolithique.
 
-### **Étape 3 : Transformation de l'Application en Microservices**
+# **Étape 3 : Transformation de l'Application en Microservices**
 - **Cours** : Découpage et conception de microservices.
 - **Laboratoire** : Transformation d'une application monolithique en microservices indépendants.
 
-### **Étape 4 : Déploiement des Microservices sur AWS**
+# **Étape 4 : Déploiement des Microservices sur AWS**
 - **Cours** : Utilisation des services cloud pour le déploiement.
 - **Laboratoire** : Déploiement des microservices sur Amazon ECS et utilisation d'un Load Balancer.
 
-### **Étape 5 : Gestion et Mise à l'Échelle**
+# **Étape 5 : Gestion et Mise à l'Échelle**
 - **Cours** : Surveillance et mise à l'échelle des applications.
 - **Laboratoire** : Utilisation d'AWS CloudWatch pour la surveillance et mise à l'échelle des microservices.
 
@@ -173,12 +175,17 @@ Ce laboratoire permet aux étudiants d'appliquer les concepts théoriques appris
                +-----------------+   +--------------------+   +--------------------+
 ```
 
-Ce diagramme illustre les principaux composants de l'architecture, leur interconnexion, et comment les services AWS sont utilisés pour gérer les microservices, le déploiement, et la surveillance.
+Ce diagramme illustre les principaux composants de l'architecture, leur interconnexion, et comment les services AWS sont utilisés pour gérer les *(1) microservices*, *(2) le déploiement*, et *(3) la surveillance*.
 
-Citations :
-[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/19265956/fd5bce08-5a46-4eac-9c70-f8e91e1eb1cf/paste.txt
+# Citations :
+
+
 [2] https://aws.amazon.com/tutorials/break-monolith-app-microservices-ecs-docker-ec2/
+
 [3] https://aws.amazon.com/fr/microservices/
+
 [4] https://docs.aws.amazon.com/whitepapers/latest/microservices-on-aws/microservices-on-aws.html
+
 [5] https://www.youtube.com/watch?v=_ep_yKuDWkE
+
 [6] https://docker-curriculum.com
