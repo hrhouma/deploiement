@@ -189,6 +189,11 @@
 
 Ce diagramme illustre les principaux composants de l'architecture, leur interconnexion, et comment les services AWS sont utilisés pour gérer les *(1) microservices*, *(2) le déploiement*, et *(3) la surveillance*.
 
+
+## **Conclusion**
+
+Ce laboratoire permet aux étudiants d'appliquer les concepts théoriques appris dans le cours de déploiement du programme Big Data. En travaillant sur des cas pratiques de déploiement, de gestion et de mise à l'échelle des microservices, les étudiants acquièrent des compétences essentielles pour gérer des environnements Big Data modernes et complexes.
+
 # Citations :
 
 
@@ -203,6 +208,3 @@ Ce diagramme illustre les principaux composants de l'architecture, leur intercon
 [6] https://docker-curriculum.com
 
 
-## **Conclusion**
-
-Ce laboratoire permet aux étudiants d'appliquer les concepts théoriques appris dans le cours de déploiement du programme Big Data. En travaillant sur des cas pratiques de déploiement, de gestion et de mise à l'échelle des microservices, les étudiants acquièrent des compétences essentielles pour gérer des environnements Big Data modernes et complexes.
