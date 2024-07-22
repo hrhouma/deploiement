@@ -255,7 +255,7 @@ Ce diagramme illustre les principaux composants de l'architecture, leur intercon
 Ce laboratoire permet aux étudiants d'appliquer les concepts théoriques appris dans le cours de déploiement du programme Big Data. En travaillant sur des cas pratiques de déploiement, de gestion et de mise à l'échelle des microservices, les étudiants acquièrent des compétences essentielles pour gérer des environnements Big Data modernes et complexes.
 
 ⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰
-# Annexe : 
+# Annexe-01: 
 ⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰
 
 ### Commandes et Description dans les Commentaires
@@ -371,7 +371,7 @@ aws deploy create-deployment-group --application-name microservices --deployment
 aws codepipeline create-pipeline --cli-input-json file://create-pipeline.json  # Crée un pipeline CodePipeline
 ```
 
-# Annexe
+# Annexe-02
 
 # Mettre à jour le conteneur client en cours d'exécution sur AWS Cloud9
 ```bash
@@ -395,7 +395,7 @@ docker run -d --name customer_1 -p 8080:8080 -e APP_DB_HOST="$dbEndpoint" custom
 echo "Customer microservice test container running at http://"$(curl ifconfig.me):8080  # Affiche l'URL pour tester le conteneur client
 ```
 
-##### Mettre à jour le conteneur employé en cours d'exécution sur AWS Cloud9
+# Mettre à jour le conteneur employé en cours d'exécution sur AWS Cloud9
 ```bash
 # Arrêter et supprimer le conteneur spécifié (nom supposé employee_1)
 docker rm -f employee_1  # Supprime le conteneur employee_1
@@ -417,7 +417,7 @@ docker run -d --name employee_1 -p 8081:8081 -e APP_DB_HOST="$dbEndpoint" employ
 echo "Employee microservice test container running at http://"$(curl ifconfig.me):8081/admin/suppliers  # Affiche l'URL pour tester le conteneur employé
 ```
 
-##### Référence : Autres commandes Docker
+# Référence : Autres commandes Docker
 ```bash
 # Lister les conteneurs en cours d'exécution
 docker container ls  # Affiche la liste des conteneurs Docker en cours d'exécution
@@ -438,7 +438,7 @@ docker run -d --name <name-to-give-container> -p <port>:<port> <image-tag>  # Ex
 docker ps  # Affiche la liste des conteneurs Docker en cours d'exécution
 ```
 
-##### Référence : Analyser le réseau et consulter les journaux Docker
+# Référence : Analyser le réseau et consulter les journaux Docker
 ```bash
 # Commandes utiles pour voir ce qui se passe
 sudo lsof -i :8080  # Affiche les fichiers ouverts par le processus écoutant sur le port 8080
@@ -455,13 +455,13 @@ sudo less /var/lib/docker/containers/<container-number>/*.log  # Affiche les jou
 docker inspect network bridge  # Affiche les informations réseau du pont Docker
 ```
 
-##### Réassocier les groupes cibles à l'équilibreur de charge
+# Réassocier les groupes cibles à l'équilibreur de charge
 ```bash
 # Accéder à la console Amazon EC2 et configurer les écouteurs et règles de l'Application Load Balancer manuellement
 # Aucune commande CLI pour cette étape, effectuer les configurations via la console AWS
 ```
 
-### Conseils de dépannage
+# Conseils de dépannage
 ```bash
 # Vérifier les journaux Amazon CloudWatch pour obtenir les détails des erreurs
 # Utiliser la console AWS CloudWatch
