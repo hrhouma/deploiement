@@ -190,6 +190,66 @@
 Ce diagramme illustre les principaux composants de l'architecture, leur interconnexion, et comment les services AWS sont utilisés pour gérer les *(1) microservices*, *(2) le déploiement*, et *(3) la surveillance*.
 
 
+⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰
+# 8 - Tâches
+⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰
+
+
+# Phase 1 : Planification de la conception et estimation des coûts
+- **Tâche 1.1 : Créer un diagramme d'architecture**
+- **Tâche 1.2 : Élaborer une estimation des coûts**
+
+# Phase 2 : Analyse de l'infrastructure de l'application monolithique
+- **Tâche 2.1 : Vérifier la disponibilité de l'application monolithique**
+- **Tâche 2.2 : Tester l'application web monolithique**
+- **Tâche 2.3 : Analyser le mode d'exécution de l'application monolithique**
+
+# Phase 3 : Création d'un environnement de développement et enregistrement du code dans un référentiel Git
+- **Tâche 3.1 : Créer un IDE AWS Cloud9 comme environnement de travail**
+- **Tâche 3.2 : Copier le code de l'application dans votre IDE**
+- **Tâche 3.3 : Créer des répertoires de travail avec un code de démarrage pour les deux microservices**
+- **Tâche 3.4 : Créer un référentiel Git pour le code des microservices et pousser le code dans CodeCommit**
+
+# Phase 4 : Configuration de l'application comme deux microservices et test de ceux-ci dans des conteneurs Docker
+- **Tâche 4.1 : Ajuster les paramètres de groupe de sécurité de l'instance AWS Cloud9**
+- **Tâche 4.2 : Modifier le code source du microservice client**
+- **Tâche 4.3 : Créer le fichier Dockerfile du microservice client et lancer un conteneur de test**
+- **Tâche 4.4 : Modifier le code source du microservice employé**
+- **Tâche 4.5 : Créer le fichier Dockerfile du microservice employé et lancer un conteneur de test**
+- **Tâche 4.6 : Ajuster le port du microservice employé et recréer l'image**
+- **Tâche 4.7 : Enregistrer le code dans CodeCommit**
+
+# Phase 5 : Création de référentiels ECR, d'un cluster ECS, de définitions de tâche et de fichiers AppSpec
+- **Tâche 5.1 : Créer des référentiels ECR et charger les images Docker**
+- **Tâche 5.2 : Créer un cluster ECS**
+- **Tâche 5.3 : Créer un référentiel CodeCommit pour stocker les fichiers de déploiement**
+- **Tâche 5.4 : Créer des fichiers de définition de tâches pour chaque microservice et les enregistrer auprès d'Amazon ECS**
+- **Tâche 5.5 : Créer des fichiers AppSpec pour CodeDeploy pour chaque microservice**
+- **Tâche 5.6 : Mettre à jour les fichiers et les enregistrer dans CodeCommit**
+
+# Phase 6 : Création de groupes cibles et d'un Application Load Balancer
+- **Tâche 6.1 : Créer quatre groupes cibles**
+- **Tâche 6.2 : Créer un groupe de sécurité et un Application Load Balancer, et configurer des règles d'acheminement du trafic**
+
+# Phase 7 : Création de deux services Amazon ECS
+- **Tâche 7.1 : Créer le service ECS pour le microservice client**
+- **Tâche 7.2 : Créer le service Amazon ECS pour le microservice employé**
+
+# Phase 8 : Configuration de CodeDeploy et CodePipeline
+- **Tâche 8.1 : Créer une application et des groupes de déploiement CodeDeploy**
+- **Tâche 8.2 : Créer un pipeline pour le microservice client**
+- **Tâche 8.3 : Tester le pipeline CI/CD pour le microservice client**
+- **Tâche 8.4 : Créer un pipeline pour le microservice employé**
+- **Tâche 8.5 : Tester le pipeline CI/CD pour le microservice employé**
+- **Tâche 8.6 : Observer comment CodeDeploy a modifié les règles de l'écouteur de l'équilibreur de charge**
+
+# Phase 9 : Ajustement du code du microservice pour relancer l'exécution d'un pipeline
+- **Tâche 9.1 : Limiter l'accès au microservice employé**
+- **Tâche 9.2 : Ajuster l'interface utilisateur pour le microservice employé et pousser l'image mise à jour dans Amazon ECR**
+- **Tâche 9.3 : Vérifier que le pipeline employé a été exécuté et que le microservice a été mis à jour**
+- **Tâche 9.4 : Tester l'accès au microservice employé**
+- **Tâche 9.5 : Mettre à l'échelle le microservice client**
+
 ## **Conclusion**
 
 Ce laboratoire permet aux étudiants d'appliquer les concepts théoriques appris dans le cours de déploiement du programme Big Data. En travaillant sur des cas pratiques de déploiement, de gestion et de mise à l'échelle des microservices, les étudiants acquièrent des compétences essentielles pour gérer des environnements Big Data modernes et complexes.
