@@ -1,4 +1,4 @@
-# Cours sur AWS Cloud9
+# AWS Cloud9
 
 ### Table des Matières
 
