@@ -1,4 +1,4 @@
-## Cours sur Amazon ECS (Elastic Container Service)
+# Amazon ECS (Elastic Container Service)
 
 ### Table des Matières
 
