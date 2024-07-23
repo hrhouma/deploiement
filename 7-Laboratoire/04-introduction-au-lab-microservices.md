@@ -2,7 +2,7 @@
 #  1 - Objectif de ce laboratoire :
 ⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰
 
-- Le présent laboratoire, centré sur l'utilisation des microservices et de Docker en conjonction avec AWS, s'inscrit de manière cohérente et approfondie dans le cadre du cours de déploiement dispensé au sein du programme Big Data. Il vise à illustrer et à renforcer de manière pratique les compétences théoriques enseignées, en offrant une application concrète des concepts de conteneurisation, de déploiement de microservices, et de gestion d'infrastructures cloud. Par ce biais, les étudiants peuvent approfondir leur compréhension des méthodes modernes de gestion des applications Big Data, en particulier en ce qui concerne la scalabilité, la résilience et l'efficacité opérationnelle.
+- Le présent laboratoire, centré sur l'utilisation des microservices et de Docker en conjonction avec AWS. Il vise à illustrer et à renforcer de manière pratique les compétences théoriques enseignées, en offrant une application concrète des concepts de conteneurisation, de déploiement de microservices, et de gestion d'infrastructures cloud. Par ce biais, les étudiants peuvent approfondir leur compréhension des méthodes modernes de gestion des applications Big Data, en particulier en ce qui concerne la scalabilité, la résilience et l'efficacité opérationnelle.
 
 ⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰⏰
 # 2 - Introduction aux concepts visées
