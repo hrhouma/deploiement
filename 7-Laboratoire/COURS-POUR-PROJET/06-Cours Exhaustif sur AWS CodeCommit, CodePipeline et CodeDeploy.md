@@ -1,4 +1,4 @@
-## Cours Exhaustif sur AWS CodeCommit, CodePipeline et CodeDeploy
+## Cours sur AWS CodeCommit, CodePipeline et CodeDeploy
 
 ### Table des Matières
 
