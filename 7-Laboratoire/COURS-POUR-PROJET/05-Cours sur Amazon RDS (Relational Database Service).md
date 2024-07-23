@@ -1,4 +1,4 @@
-# Cours Exhaustif sur Amazon RDS (Relational Database Service)
+# Cours sur Amazon RDS (Relational Database Service)
 
 ### Table des Matières
 
