@@ -1,4 +1,4 @@
-# Cours sur AWS CodePipeline
+# AWS CodePipeline
 
 ## Table des Matières
 
