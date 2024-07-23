@@ -139,6 +139,3 @@ Amazon ECS (Elastic Container Service) est un service de gestion de conteneurs q
 
 Amazon ECS est un service puissant et flexible pour gérer des applications conteneurisées à grande échelle. En utilisant ECS, vous pouvez déployer, gérer et mettre à l'échelle des conteneurs Docker de manière efficace tout en tirant parti de l'infrastructure robuste et des services intégrés d'AWS. Suivre les meilleures pratiques et utiliser les outils de surveillance et de gestion d'AWS vous aidera à maintenir la fiabilité, la sécurité et la performance de vos applications conteneurisées.
 
----
-
-Cette structure exhaustive vous guidera à travers les concepts et les pratiques nécessaires pour maîtriser l'utilisation d'Amazon ECS pour déployer et gérer des applications conteneurisées sur AWS.
