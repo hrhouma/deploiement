@@ -85,9 +85,7 @@ Le laboratoire est structuré en neuf phases principales, allant de la planifica
 8. **Configurer CodeDeploy et CodePipeline** : Mettre en place des pipelines CI/CD pour vos microservices.
    - **Tâche 8.1 :** Créer une application CodeDeploy et des groupes de déploiement pour les microservices.
    - **Tâche 8.2 :** Créer un pipeline CI/CD pour le microservice client.
-   - **Tâche 8.
-
-3 :** Tester le pipeline CI/CD pour le microservice client.
+   - **Tâche 8.3 :** Tester le pipeline CI/CD pour le microservice client.
    - **Tâche 8.4 :** Créer un pipeline CI/CD pour le microservice employé.
    - **Tâche 8.5 :** Tester le pipeline CI/CD pour le microservice employé.
    - **Tâche 8.6 :** Observer comment CodeDeploy modifie les règles de l'écouteur de l'équilibreur de charge.
