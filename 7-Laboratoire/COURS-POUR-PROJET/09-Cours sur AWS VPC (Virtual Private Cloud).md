@@ -1,4 +1,4 @@
-# Cours Exhaustif sur AWS VPC (Virtual Private Cloud)
+# Cours sur AWS VPC (Virtual Private Cloud)
 
 ### Table des Matières
 
