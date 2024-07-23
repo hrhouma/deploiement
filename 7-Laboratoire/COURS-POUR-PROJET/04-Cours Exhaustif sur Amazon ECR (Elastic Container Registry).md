@@ -1,4 +1,4 @@
-# Cours Exhaustif sur Amazon ECR (Elastic Container Registry)
+# Cours sur Amazon ECR (Elastic Container Registry)
 
 ### Table des Matières
 
