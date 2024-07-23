@@ -1,4 +1,4 @@
-## Cours Exhaustif sur AWS CloudWatch
+## AWS CloudWatch
 
 ### Table des Matières
 
@@ -183,6 +183,4 @@ AWS CloudWatch est un service de surveillance et de gestion des journaux conçu 
 
 AWS CloudWatch est un outil puissant pour la surveillance et la gestion des ressources AWS ainsi que des applications. En collectant et en analysant les métriques et les journaux, CloudWatch permet de maintenir la performance, la sécurité et la fiabilité des environnements AWS. L'intégration avec d'autres services AWS et les fonctionnalités avancées de visualisation et d'alerte en font un composant essentiel de toute stratégie de gestion d'infrastructure cloud.
 
----
 
-Ce cours exhaustif couvre les principaux aspects de AWS CloudWatch, vous fournissant les connaissances nécessaires pour surveiller et gérer efficacement vos ressources et applications sur AWS.
