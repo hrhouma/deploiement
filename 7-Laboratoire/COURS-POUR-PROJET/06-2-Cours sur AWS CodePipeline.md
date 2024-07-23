@@ -1,4 +1,4 @@
-# Cours Exhaustif sur AWS CodePipeline
+# AWS CodePipeline
 
 ## Table des Matières
 
@@ -288,6 +288,6 @@ Consultez la documentation officielle AWS et lisez les livres blancs sur CI/CD e
 
 ### Conclusion
 
-Ce cours exhaustif sur AWS CodePipeline vous fournira les connaissances et les compétences nécessaires pour créer, gérer et optimiser des pipelines CI/CD. En suivant les modules et en participant aux ateliers pratiques, vous serez bien équipé pour implémenter des pipelines efficaces et sécurisés dans vos projets. Bonne chance dans votre parcours d'apprentissage!
+Ce cours sur AWS CodePipeline vous fournira les connaissances et les compétences nécessaires pour créer, gérer et optimiser des pipelines CI/CD. En suivant les modules et en participant aux ateliers pratiques, vous serez bien équipé pour implémenter des pipelines efficaces et sécurisés dans vos projets. Bonne chance dans votre parcours d'apprentissage!
 
 [Retour en haut](#table-des-matières)
