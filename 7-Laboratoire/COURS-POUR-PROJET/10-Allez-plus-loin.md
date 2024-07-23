@@ -26,4 +26,3 @@
 | Amazon VPC                      | Réseau virtuel dédié dans le cloud AWS.                                                                       | Isoler et sécuriser les ressources réseau AWS.                           | Un espace réseau privé et sécurisé dans le cloud pour vos applications.                            |
 | Amazon Elastic Load Balancing (ELB) | Répartition de charge pour diriger le trafic vers les instances EC2.                                       | Distribuer le trafic entrant sur plusieurs instances EC2.               | Un répartiteur de trafic qui assure que vos applications restent performantes et disponibles.     |
 
-Si vous avez besoin d'ajustements ou de plus de détails, n'hésitez pas à me le faire savoir!
