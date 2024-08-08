@@ -77,7 +77,7 @@
 
 # A.5. Création d’un dépôt sur AZURE DEVOPS
 1. Suivez les étapes suivantes pour créer un dépôt sur Azure DevOps :
-    1. Allez à [Azure DevOps](https://dev.azure.com/)
+    1. Allez à [Azure DevOps](https://dev.azure.com/)   (https://aex.dev.azure.com/me?mkt=fr-FR / https://portal.azure.com/) 
     2. Créez un profil
     3. Créez une organisation
     4. Créez un projet `HelloWorldApp`
@@ -95,6 +95,10 @@
         git remote add origin https://hrehouma0084@dev.azure.com/hrehouma0084/HelloWorldApp/_git/HelloWorldApp
         git push -u origin --all
         ```
+        
+![image](https://github.com/user-attachments/assets/de60f76f-8aac-4ce9-8734-78e12a7c449f)
+![image](https://github.com/user-attachments/assets/185ac433-cbbd-4965-8ee8-7e85943eec67)
+
     8. Section facultative : confirmation de la sauvegarde des informations sur votre ordinateur local via le gestionnaire d'identifiants.
 
 # PARTIE # B – Intégration continue sur AZURE DEVOPS
