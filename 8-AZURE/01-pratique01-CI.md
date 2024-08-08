@@ -77,18 +77,20 @@
 
 # A.5. Création d’un dépôt sur AZURE DEVOPS
 1. Suivez les étapes suivantes pour créer un dépôt sur Azure DevOps :
-    1. Allez à [Azure DevOps](https://dev.azure.com/)   (https://aex.dev.azure.com/me?mkt=fr-FR / https://portal.azure.com/) 
-    2. Créez un profil
-    3. Créez une organisation
-    4. Créez un projet `HelloWorldApp`
-    5. Cliquez sur `Repos`
-    6. Préparez-vous à faire le push du dépôt local au dépôt distant sur Azure DevOps :
+    1. Allez à [Azure DevOps](https://dev.azure.com/)
+   - https://aex.dev.azure.com/me?mkt=fr-FR
+   - https://portal.azure.com/
+    3. Créez un profil
+    4. Créez une organisation
+    5. Créez un projet `HelloWorldApp`
+    6. Cliquez sur `Repos`
+    7. Préparez-vous à faire le push du dépôt local au dépôt distant sur Azure DevOps :
         ```bash
         git remote help
         cat .git/config
         git remote remove origin
         ```
-    7. Générez les identifiants (Credentials) sur Azure DevOps :
+    8. Générez les identifiants (Credentials) sur Azure DevOps :
         - Username: `hrehouma`
         - Password: `vv2qfumwpirb3lcol6bynlkachvsnoigmic5afbx2r5dbxg7e5tq`
         ```bash
