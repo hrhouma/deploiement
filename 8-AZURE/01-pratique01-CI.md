@@ -15,9 +15,9 @@
     cd DevopsDemo
     dotnet new globaljson
     ls
-    cat .\global.json
+    cat global.json
     dotnet --list-sdks
-    nano .\global.json
+    nano global.json
     ```
 
 3. Dépannage & troubleshooting : [How to change default dotnet SDK version](https://dev.to/polarbit/how-to-change-default-dotnet-sdk-version-43ph)
