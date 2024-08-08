@@ -1,8 +1,3 @@
-
-Voici un guide détaillé pour configurer, déployer et créer des pipelines CI/CD pour un projet Python utilisant FastAPI et Azure DevOps. Ce guide inclut des étapes pour configurer le projet, créer une application web complète avec FastAPI, et créer des pipelines CI/CD avec Azure DevOps.
-
----
-
 # FastAPI DevOpsDemo Project Setup and Deployment
 
 ## LIENS:
