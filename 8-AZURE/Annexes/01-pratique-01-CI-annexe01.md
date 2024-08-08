@@ -240,3 +240,253 @@
     git commit -m 'lancement du CI'
     git push -u origin --all
     ```
+
+-------
+
+# Annexe :
+
+
+
+Bien sûr, je vais détailler chaque section de la configuration YAML pour la pipeline CI dans Azure DevOps, en expliquant chaque commande et ses paramètres.
+
+---
+
+### B.3. Création de la pipeline CI (Méthode # 2 - YAML)
+
+1. **Créez la pipeline CI en utilisant le YAML** :
+    - **trigger** : Cette section spécifie les branches qui déclencheront la pipeline. Ici, `main` signifie que chaque fois qu'un changement est poussé à la branche `main`, la pipeline sera déclenchée.
+      ```yaml
+      trigger:
+      - main
+      ```
+
+    - **pool** : Cette section spécifie l'agent de build que la pipeline utilisera. Ici, `vmImage: 'ubuntu-22.04'` indique que la pipeline s'exécutera sur une machine virtuelle Ubuntu 22.04.
+      ```yaml
+      pool:
+        vmImage: 'ubuntu-22.04'
+      ```
+
+    - **steps** : Cette section contient les différentes étapes que la pipeline exécutera. Chaque étape est une tâche (task) avec des paramètres spécifiques.
+
+      1. **UseDotNet@2** : Cette tâche installe une version spécifique du SDK .NET sur l'agent de build.
+         - **packageType** : Le type de package à installer, ici `sdk` pour le kit de développement logiciel.
+         - **version** : La version du SDK .NET à installer, ici `7.x` signifie qu'on installe la version 7.x.
+         - **installationPath** : Le chemin où le SDK sera installé sur l'agent de build.
+         ```yaml
+         - task: UseDotNet@2
+           inputs:
+             packageType: 'sdk'
+             version: '7.x'
+             installationPath: $(Agent.ToolsDirectory)/dotnet
+         ```
+
+      2. **DotNetCoreCLI@2 - Restore Libraries** : Cette tâche restaure les dépendances du projet .NET.
+         - **displayName** : Le nom affiché pour cette tâche, ici `Restore Libraries`.
+         - **command** : La commande à exécuter, ici `restore` pour restaurer les dépendances.
+         - **projects** : Le chemin vers les fichiers de projet, ici `**/*.csproj` signifie tous les fichiers .csproj dans tous les sous-répertoires.
+         ```yaml
+         - task: DotNetCoreCLI@2
+           displayName: 'Restore Libraries'
+           inputs:
+             command: 'restore'
+             projects: '**/*.csproj'
+         ```
+
+      3. **DotNetCoreCLI@2 - Build** : Cette tâche construit le projet .NET.
+         - **displayName** : Le nom affiché pour cette tâche, ici `Build`.
+         - **command** : La commande à exécuter, ici `build` pour construire le projet.
+         - **projects** : Le chemin vers les fichiers de projet, ici `**/*.csproj`.
+         - **arguments** : Les arguments supplémentaires pour la commande de build, ici `--configuration $(BuildConfiguration)` signifie que la configuration de build (Debug ou Release) sera spécifiée par une variable de pipeline.
+         ```yaml
+         - task: DotNetCoreCLI@2
+           displayName: 'Build'
+           inputs:
+             command: 'build'
+             projects: '**/*.csproj'
+             arguments: '--configuration $(BuildConfiguration)'
+         ```
+
+      4. **DotNetCoreCLI@2 - Publish** : Cette tâche publie le projet .NET.
+         - **displayName** : Le nom affiché pour cette tâche, ici `Publish`.
+         - **command** : La commande à exécuter, ici `publish` pour publier le projet.
+         - **publishWebProjects** : Une option pour publier les projets web, ici `true`.
+         - **projects** : Le chemin vers les fichiers de projet, ici `**/*.csproj`.
+         - **arguments** : Les arguments supplémentaires pour la commande de publication, ici `--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)` signifie que la configuration de publication sera spécifiée par une variable de pipeline et le chemin de sortie sera défini par une autre variable de pipeline.
+         - **zipAfterPublish** : Une option pour compresser les fichiers publiés, ici `true`.
+         - **modifyOutputPath** : Une option pour modifier le chemin de sortie, ici `true`.
+         ```yaml
+         - task: DotNetCoreCLI@2
+           displayName: 'Publish'
+           inputs:
+             command: 'publish'
+             publishWebProjects: true
+             projects: '**/*.csproj'
+             arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+             zipAfterPublish: true
+             modifyOutputPath: true
+         ```
+
+      5. **PublishBuildArtifacts@1 - Publish Artifact** : Cette tâche publie les artefacts de build.
+         - **displayName** : Le nom affiché pour cette tâche, ici `Publish Artifact`.
+         - **PathtoPublish** : Le chemin vers les fichiers à publier, ici `$(Build.ArtifactStagingDirectory)` signifie que les fichiers publiés seront dans le répertoire spécifié par cette variable de pipeline.
+         - **ArtifactName** : Le nom de l'artefact, ici `drop`.
+         - **publishLocation** : L'emplacement de publication, ici `Container` signifie que les artefacts seront publiés dans un conteneur de stockage Azure DevOps.
+         ```yaml
+         - task: PublishBuildArtifacts@1
+           displayName: 'Publish Artifact'
+           inputs:
+             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+             ArtifactName: 'drop'
+             publishLocation: 'Container'
+         ```
+
+---
+
+### Détails supplémentaires pour les débutants
+
+#### 1. **trigger**
+- **trigger** : Cette section définit les branches qui déclencheront la pipeline. Le pipeline sera exécuté automatiquement chaque fois qu'un changement est poussé à la branche spécifiée. Ici, `main` signifie que la branche principale du dépôt déclenchera la pipeline.
+  ```yaml
+  trigger:
+  - main
+  ```
+
+#### 2. **pool**
+- **pool** : Cette section spécifie l'agent de build que la pipeline utilisera. Un agent est une machine sur laquelle Azure DevOps exécute vos étapes de pipeline. Ici, `vmImage: 'ubuntu-22.04'` indique que la pipeline s'exécutera sur une machine virtuelle Ubuntu 22.04.
+  ```yaml
+  pool:
+    vmImage: 'ubuntu-22.04'
+  ```
+
+#### 3. **steps**
+- **steps** : Cette section contient les différentes étapes que la pipeline exécutera. Chaque étape est une tâche (task) avec des paramètres spécifiques. Les étapes sont exécutées dans l'ordre où elles sont définies.
+
+##### 3.1. **UseDotNet@2**
+- **task: UseDotNet@2** : Cette tâche installe une version spécifique du SDK .NET sur l'agent de build.
+  - **packageType** : Le type de package à installer. Ici, `sdk` signifie que nous installons le kit de développement logiciel .NET.
+  - **version** : La version du SDK .NET à installer. Ici, `7.x` signifie que nous installons la version 7.x du SDK .NET.
+  - **installationPath** : Le chemin où le SDK sera installé sur l'agent de build. `$(Agent.ToolsDirectory)/dotnet` est une variable de pipeline qui représente le répertoire d'installation des outils sur l'agent.
+  ```yaml
+  - task: UseDotNet@2
+    inputs:
+      packageType: 'sdk'
+      version: '7.x'
+      installationPath: $(Agent.ToolsDirectory)/dotnet
+  ```
+
+##### 3.2. **DotNetCoreCLI@2 - Restore Libraries**
+- **task: DotNetCoreCLI@2** : Cette tâche exécute une commande CLI .NET Core.
+  - **displayName** : Le nom affiché pour cette tâche, ici `Restore Libraries`.
+  - **command** : La commande à exécuter. Ici, `restore` pour restaurer les dépendances du projet .NET.
+  - **projects** : Le chemin vers les fichiers de projet. Ici, `**/*.csproj` signifie tous les fichiers .csproj dans tous les sous-répertoires.
+  ```yaml
+  - task: DotNetCoreCLI@2
+    displayName: 'Restore Libraries'
+    inputs:
+      command: 'restore'
+      projects: '**/*.csproj'
+  ```
+
+##### 3.3. **DotNetCoreCLI@2 - Build**
+- **task: DotNetCoreCLI@2** : Cette tâche exécute une commande CLI .NET Core.
+  - **displayName** : Le nom affiché pour cette tâche, ici `Build`.
+  - **command** : La commande à exécuter. Ici, `build` pour construire le projet .NET.
+  - **projects** : Le chemin vers les fichiers de projet. Ici, `**/*.csproj`.
+  - **arguments** : Les arguments supplémentaires pour la commande de build. Ici, `--configuration $(BuildConfiguration)` signifie que la configuration de build (Debug ou Release) sera spécifiée par une variable de pipeline.
+  ```yaml
+  - task: DotNetCoreCLI@2
+    displayName: 'Build'
+    inputs:
+      command: 'build'
+      projects: '**/*.csproj'
+      arguments: '--configuration $(BuildConfiguration)'
+  ```
+
+##### 3.4. **DotNetCoreCLI@2 - Publish**
+- **task: Dot
+
+NetCoreCLI@2** : Cette tâche exécute une commande CLI .NET Core.
+  - **displayName** : Le nom affiché pour cette tâche, ici `Publish`.
+  - **command** : La commande à exécuter. Ici, `publish` pour publier le projet .NET.
+  - **publishWebProjects** : Une option pour publier les projets web. Ici, `true`.
+  - **projects** : Le chemin vers les fichiers de projet. Ici, `**/*.csproj`.
+  - **arguments** : Les arguments supplémentaires pour la commande de publication. Ici, `--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)` signifie que la configuration de publication sera spécifiée par une variable de pipeline et le chemin de sortie sera défini par une autre variable de pipeline.
+  - **zipAfterPublish** : Une option pour compresser les fichiers publiés. Ici, `true`.
+  - **modifyOutputPath** : Une option pour modifier le chemin de sortie. Ici, `true`.
+  ```yaml
+  - task: DotNetCoreCLI@2
+    displayName: 'Publish'
+    inputs:
+      command: 'publish'
+      publishWebProjects: true
+      projects: '**/*.csproj'
+      arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: true
+      modifyOutputPath: true
+  ```
+
+##### 3.5. **PublishBuildArtifacts@1 - Publish Artifact**
+- **task: PublishBuildArtifacts@1** : Cette tâche publie les artefacts de build.
+  - **displayName** : Le nom affiché pour cette tâche, ici `Publish Artifact`.
+  - **PathtoPublish** : Le chemin vers les fichiers à publier. Ici, `$(Build.ArtifactStagingDirectory)` signifie que les fichiers publiés seront dans le répertoire spécifié par cette variable de pipeline.
+  - **ArtifactName** : Le nom de l'artefact. Ici, `drop`.
+  - **publishLocation** : L'emplacement de publication. Ici, `Container` signifie que les artefacts seront publiés dans un conteneur de stockage Azure DevOps.
+  ```yaml
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'drop'
+      publishLocation: 'Container'
+  ```
+
+---
+
+### Commentaires + explications : 
+
+```yaml
+trigger:
+- main  # Déclenche la pipeline sur les commits à la branche principale
+
+pool:
+  vmImage: 'ubuntu-22.04'  # Utilise une machine virtuelle Ubuntu 22.04 comme agent de build
+
+steps:
+- task: UseDotNet@2  # Installe une version spécifique du SDK .NET
+  inputs:
+    packageType: 'sdk'  # Installe le SDK .NET
+    version: '7.x'  # Spécifie la version du SDK .NET à installer
+    installationPath: $(Agent.ToolsDirectory)/dotnet  # Chemin d'installation du SDK
+
+- task: DotNetCoreCLI@2  # Exécute une commande CLI .NET Core pour restaurer les dépendances
+  displayName: 'Restore Libraries'  # Nom affiché pour cette étape
+  inputs:
+    command: 'restore'  # Commande pour restaurer les dépendances
+    projects: '**/*.csproj'  # Chemin vers les fichiers de projet
+
+- task: DotNetCoreCLI@2  # Exécute une commande CLI .NET Core pour construire le projet
+  displayName: 'Build'  # Nom affiché pour cette étape
+  inputs:
+    command: 'build'  # Commande pour construire le projet
+    projects: '**/*.csproj'  # Chemin vers les fichiers de projet
+    arguments: '--configuration $(BuildConfiguration)'  # Arguments pour la commande de build
+
+- task: DotNetCoreCLI@2  # Exécute une commande CLI .NET Core pour publier le projet
+  displayName: 'Publish'  # Nom affiché pour cette étape
+  inputs:
+    command: 'publish'  # Commande pour publier le projet
+    publishWebProjects: true  # Option pour publier les projets web
+    projects: '**/*.csproj'  # Chemin vers les fichiers de projet
+    arguments: '--configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'  # Arguments pour la commande de publication
+    zipAfterPublish: true  # Compresse les fichiers publiés
+    modifyOutputPath: true  # Modifie le chemin de sortie
+
+- task: PublishBuildArtifacts@1  # Publie les artefacts de build
+  displayName: 'Publish Artifact'  # Nom affiché pour cette étape
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'  # Chemin vers les fichiers à publier
+    ArtifactName: 'drop'  # Nom de l'artefact
+    publishLocation: 'Container'  # Emplacement de publication
+```
+
+   
