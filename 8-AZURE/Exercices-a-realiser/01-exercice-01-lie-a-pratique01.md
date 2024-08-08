@@ -191,4 +191,138 @@
     git commit -m 'lancement du CI'
     git push -u origin --all
     ```
+-----
 
+# Annexe : 
+
+Bien sûr, voici une explication détaillée de chaque section de la configuration YAML pour la pipeline CI dans Azure DevOps, adaptée pour les débutants avec des commentaires étape par étape :
+
+---
+
+### B.3. Création de la pipeline CI (Méthode # 2 - YAML)
+
+1. **Créez la pipeline CI en utilisant le YAML** :
+
+#### Section `trigger`
+- **trigger** : Cette section définit les branches qui déclencheront la pipeline. Chaque fois qu'un changement est poussé à la branche `main`, la pipeline sera exécutée automatiquement.
+  ```yaml
+  trigger:
+  - main
+  ```
+
+#### Section `pool`
+- **pool** : Cette section spécifie l'agent de build que la pipeline utilisera. Un agent est une machine sur laquelle Azure DevOps exécute vos étapes de pipeline. Ici, `vmImage: 'ubuntu-22.04'` signifie que la pipeline s'exécutera sur une machine virtuelle Ubuntu 22.04.
+  ```yaml
+  pool:
+    vmImage: 'ubuntu-22.04'
+  ```
+
+#### Section `steps`
+- **steps** : Cette section contient les différentes étapes que la pipeline exécutera. Chaque étape est une tâche (task) avec des paramètres spécifiques.
+
+##### Étape 1 : Installer la version de Python
+1. **UsePythonVersion@0** : Cette tâche installe une version spécifique de Python sur l'agent de build.
+   - **versionSpec** : Spécifie la version de Python à installer, ici `3.x` signifie que nous installons une version 3.x de Python.
+   - **addToPath** : Ajoute Python au `PATH` de l'agent pour pouvoir utiliser les commandes Python directement.
+   ```yaml
+   - task: UsePythonVersion@0
+     inputs:
+       versionSpec: '3.x'
+       addToPath: true
+   ```
+
+##### Étape 2 : Installer les dépendances
+2. **Install dependencies** : Cette tâche installe les dépendances Python nécessaires à partir d'un fichier `requirements.txt`.
+   - **script** : La section `script` contient les commandes shell à exécuter.
+     - **python -m venv venv** : Crée un environnement virtuel Python nommé `venv`.
+     - **source venv/bin/activate** : Active l'environnement virtuel. (Sur Windows, utilisez `.\venv\Scripts\activate`).
+     - **pip install -r requirements.txt** : Installe les dépendances listées dans le fichier `requirements.txt`.
+   - **displayName** : Le nom affiché pour cette tâche, ici `Install dependencies`.
+   ```yaml
+   - script: |
+       python -m venv venv
+       source venv/bin/activate
+       pip install -r requirements.txt
+     displayName: 'Install dependencies'
+   ```
+
+##### Étape 3 : Exécuter les tests
+3. **Run tests** : Cette tâche exécute les tests unitaires pour le projet Python.
+   - **script** : La section `script` contient les commandes shell à exécuter.
+     - **source venv/bin/activate** : Active l'environnement virtuel. (Sur Windows, utilisez `.\venv\Scripts\activate`).
+     - **pytest** : Exécute les tests définis dans le projet en utilisant `pytest`.
+   - **displayName** : Le nom affiché pour cette tâche, ici `Run tests`.
+   ```yaml
+   - script: |
+       source venv/bin/activate
+       pytest
+     displayName: 'Run tests'
+   ```
+
+##### Étape 4 : Packager l'application
+4. **Package application** : Cette tâche crée un package de distribution pour l'application Python.
+   - **script** : La section `script` contient les commandes shell à exécuter.
+     - **source venv/bin/activate** : Active l'environnement virtuel. (Sur Windows, utilisez `.\venv\Scripts\activate`).
+     - **python setup.py sdist bdist_wheel** : Crée un package source et un package binaire pour l'application.
+   - **displayName** : Le nom affiché pour cette tâche, ici `Package application`.
+   ```yaml
+   - script: |
+       source venv/bin/activate
+       python setup.py sdist bdist_wheel
+     displayName: 'Package application'
+   ```
+
+##### Étape 5 : Publier les artefacts de build
+5. **PublishBuildArtifacts@1** : Cette tâche publie les artefacts de build.
+   - **displayName** : Le nom affiché pour cette tâche, ici `Publish Artifact`.
+   - **PathtoPublish** : Le chemin vers les fichiers à publier. Ici, `dist` signifie que les fichiers dans le répertoire `dist` seront publiés.
+   - **ArtifactName** : Le nom de l'artefact. Ici, `drop`.
+   - **publishLocation** : L'emplacement de publication. Ici, `Container` signifie que les artefacts seront publiés dans un conteneur de stockage Azure DevOps.
+   ```yaml
+   - task: PublishBuildArtifacts@1
+     inputs:
+       PathtoPublish: 'dist'
+       ArtifactName: 'drop'
+       publishLocation: 'Container'
+   ```
+
+---
+
+### Exemple complet avec commentaires
+
+```yaml
+trigger:
+- main  # Déclenche la pipeline sur les commits à la branche principale
+
+pool:
+  vmImage: 'ubuntu-22.04'  # Utilise une machine virtuelle Ubuntu 22.04 comme agent de build
+
+steps:
+- task: UsePythonVersion@0  # Installe une version spécifique de Python
+  inputs:
+    versionSpec: '3.x'  # Spécifie la version de Python à installer (3.x)
+    addToPath: true  # Ajoute Python au PATH de l'agent
+
+- script: |  # Tâche pour installer les dépendances
+    python -m venv venv  # Crée un environnement virtuel Python
+    source venv/bin/activate  # Active l'environnement virtuel (utilisez .\venv\Scripts\activate sur Windows)
+    pip install -r requirements.txt  # Installe les dépendances listées dans requirements.txt
+  displayName: 'Install dependencies'  # Nom affiché pour cette étape
+
+- script: |  # Tâche pour exécuter les tests
+    source venv/bin/activate  # Active l'environnement virtuel (utilisez .\venv\Scripts\activate sur Windows)
+    pytest  # Exécute les tests unitaires avec pytest
+  displayName: 'Run tests'  # Nom affiché pour cette étape
+
+- script: |  # Tâche pour packager l'application
+    source venv/bin/activate  # Active l'environnement virtuel (utilisez .\venv\Scripts\activate sur Windows)
+    python setup.py sdist bdist_wheel  # Crée un package source et un package binaire
+  displayName: 'Package application'  # Nom affiché pour cette étape
+
+- task: PublishBuildArtifacts@1  # Tâche pour publier les artefacts de build
+  displayName: 'Publish Artifact'  # Nom affiché pour cette étape
+  inputs:
+    PathtoPublish: 'dist'  # Chemin vers les fichiers à publier
+    ArtifactName: 'drop'  # Nom de l'artefact
+    publishLocation: 'Container'  # Emplacement de publication (Azure DevOps Container)
+```
