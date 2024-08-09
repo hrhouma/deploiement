@@ -246,11 +246,6 @@
 # Annexe :
 
 
-
-Bien sûr, je vais détailler chaque section de la configuration YAML pour la pipeline CI dans Azure DevOps, en expliquant chaque commande et ses paramètres.
-
----
-
 ### B.3. Création de la pipeline CI (Méthode # 2 - YAML)
 
 1. **Créez la pipeline CI en utilisant le YAML** :
