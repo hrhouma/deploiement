@@ -1,4 +1,7 @@
-# 📘 Tutoriel Complet : Création d’Applications Web Azure pour Développement, Qualité et Production
+- https://aex.dev.azure.com/
+- https://portal.azure.com/
+  
+# 📘 Création d’Applications Web Azure pour Développement, Qualité et Production
 
 Ce tutoriel vous guidera à travers toutes les étapes nécessaires pour créer des applications Web sur Azure, destinées aux environnements de Développement, Qualité, et Production. Nous couvrirons les étapes de configuration, de création, de déploiement et de vérification des applications Web.
 
