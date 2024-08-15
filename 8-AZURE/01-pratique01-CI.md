@@ -1,5 +1,8 @@
 # DevOpsDemo Project Setup and Deployment
 
+- https://aex.dev.azure.com/
+- https://portal.azure.com/
+  
 # PARTIE # A – Création et déploiement manuel du projet
 
 # A.1. Configuration du projet
