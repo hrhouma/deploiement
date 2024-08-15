@@ -278,10 +278,151 @@ Vous pouvez définir des déclencheurs pour cette release pipeline, par exemple,
  ---
  
 
+### 🟣 Partie 7 À CORRIGER : Création de la Release Pipeline pour l’Application ASP.NET 7.0
+
+Dans cette partie, nous allons créer une pipeline de release pour déployer l'application ASP.NET 7.0 que vous avez développée. Ce pipeline automatisera le déploiement vers l’environnement de développement, en utilisant Azure DevOps et les applications Web créées précédemment sur Azure Portal.
+
+#### 1️⃣ Accéder à la Création de la Pipeline
+
+1. **Étape 1** : Connectez-vous à votre compte Azure DevOps.
+2. **Étape 2** : Allez dans votre projet **HelloWorldCICD**.
+3. **Étape 3** : Dans le menu de gauche, cliquez sur **Releases** sous **Pipelines**.
+4. **Étape 4** : Sélectionnez **New pipeline** pour créer une nouvelle pipeline de release.
+
+#### 2️⃣ Ajouter les Stages et Configurer la Pipeline
+
+1. **Étape 1** : Une fois sur la page de création de pipeline, vous verrez une option pour **Ajouter un stage**. Cliquez sur **+ Add** sous **Stages**.
+2. **Étape 2** : Une liste de templates de déploiement apparaîtra. Sélectionnez **Azure App Service deployment** pour déployer sur un service d’application Azure. Cliquez ensuite sur **Apply**.
+3. **Étape 3** : Renommez le stage en "Développement" en cliquant sur le nom par défaut (Stage 1) et en le modifiant.
+
+#### 3️⃣ Configurer la Tâche de Déploiement
+
+1. **Étape 1** : Cliquez sur **View stage tasks** ou directement sur le stage "Développement" pour configurer les tâches de ce stage.
+2. **Étape 2** : Vous verrez qu’une tâche nommée **Deploy Azure App Service** a été ajoutée automatiquement. Cliquez dessus pour la configurer.
+3. **Étape 3** : Dans les paramètres de la tâche :
+   - **Connection type** : Choisissez **Azure Resource Manager**.
+   - **Azure subscription** : Sélectionnez la subscription Azure appropriée.
+   - **App Service name** : Sélectionnez le nom de votre service d’application, par exemple `dss-helloworldapp-dev`.
+   - **Deploy to Slot or App Service Environment** : Laissez cette option décochée si vous ne souhaitez pas utiliser un slot spécifique pour ce déploiement.
+
+4. **Étape 4** : Sous **Package or folder**, vérifiez que le chemin par défaut de votre fichier `.zip` ou `.war` est correct. Ce fichier sera déployé sur votre App Service.
+
+#### 4️⃣ Ajouter des Tâches Supplémentaires (Optionnel)
+
+1. **Étape 1** : Si vous avez besoin d’ajouter des étapes supplémentaires dans ce stage, cliquez sur le signe **+** à droite de **Run on agent** pour sélectionner parmi une variété de tâches disponibles, telles que **Tests**, **Transformations de fichiers**, ou **Exécutions de scripts**.
+2. **Étape 2** : Configurez ces tâches comme requis pour votre processus de déploiement.
+
+#### 5️⃣ Sauvegarder et Créer la Release
+
+1. **Étape 1** : Une fois que tout est configuré, cliquez sur **Save** en haut à droite pour sauvegarder votre pipeline.
+2. **Étape 2** : Vous pouvez maintenant cliquer sur **Create release** pour déclencher une nouvelle release en utilisant cette pipeline.
 
 
 
+- Cette partie vous a guidé dans la configuration initiale de votre release pipeline pour le déploiement de l’application ASP.NET 7.0 dans l’environnement de développement. La prochaine étape sera de configurer des stages similaires pour les environnements de test (QA) et de production, en ajustant les paramètres en fonction des besoins spécifiques de chaque environnement.
 
+
+---
+
+
+### 🟣 Partie 7 : Création du Premier Composant de la Release Pipeline - Développement
+
+Dans cette partie, nous allons configurer le premier composant de notre release pipeline, spécifiquement pour l'environnement de **développement**. Cette étape est cruciale car elle permet de déployer automatiquement votre application ASP.NET 7.0 sur l'App Service Azure dédié à cet environnement.
+
+#### Objectifs de la Partie 7
+- **Configurer une nouvelle release pipeline** dans Azure DevOps.
+- **Ajouter et configurer un stage** pour le déploiement vers l'environnement de **développement**.
+- **Associer les tâches nécessaires** pour garantir que l'application est correctement déployée sur l'App Service de développement.
+
+#### 1️⃣ Accéder à la Création de la Release Pipeline
+
+1. **Accédez à Azure DevOps** :
+   - Connectez-vous à votre compte Azure DevOps et naviguez vers le projet approprié.
+   - Dans le menu de gauche, cliquez sur **Pipelines** puis sur **Releases**.
+   - Si aucune pipeline de release n'existe encore, cliquez sur **New pipeline** pour en créer une nouvelle.
+
+2. **Choisir un Template de Déploiement** :
+   - Une fois dans la configuration de la nouvelle pipeline de release, un panel s'affiche à droite pour sélectionner un template.
+   - Choisissez **Azure App Service deployment** parmi les options disponibles. Ce template est préconfiguré pour déployer une application web sur un service d'application Azure.
+
+#### 2️⃣ Ajouter un Stage pour l’Environnement de Développement
+
+1. **Nommer le Stage** :
+   - Après avoir sélectionné le template, un nouveau stage apparaît nommé par défaut comme "Stage 1".
+   - Renommez ce stage en "Développement" pour refléter son objectif.
+
+2. **Configurer le Stage** :
+   - Cliquez sur le stage "Développement" pour ouvrir le panneau de configuration.
+   - Vous serez invité à choisir le **service de connexion Azure** que vous avez configuré pour accéder à vos ressources Azure.
+   - Sélectionnez l'option appropriée pour connecter cette pipeline au service Azure.
+
+3. **Configurer la Tâche de Déploiement** :
+   - Dans la section **Tasks**, vous verrez une tâche pré-configurée appelée **Deploy Azure App Service**.
+   - Assurez-vous que la **connexion Azure** est correctement configurée pour utiliser votre **Azure Resource Manager**.
+   - Sous **App Service name**, choisissez l'application spécifique à cet environnement de développement, par exemple, `dss-helloworldapp-dev`.
+   - Laissez les autres paramètres par défaut sauf si vous avez des configurations spécifiques à appliquer (comme des variables d'environnement ou des transformations de fichiers).
+
+4. **Sauvegarder et Finaliser le Stage** :
+   - Une fois toutes les configurations terminées, cliquez sur **Save** en haut à droite de la page.
+   - Cela sauvegarde votre configuration du stage "Développement" dans la release pipeline.
+
+#### 3️⃣ Validation du Composant de Développement
+
+1. **Vérification du Stage** :
+   - Après avoir sauvegardé, vérifiez que le stage "Développement" est correctement configuré et n'affiche pas d'erreurs.
+   - Assurez-vous que le stage est bien relié à un artifact, sinon vous devrez ajouter un artifact (par exemple, un build d'application ASP.NET) en cliquant sur **Add an artifact** dans la section artifacts de la pipeline.
+
+2. **Test de Déploiement** :
+   - Avant de passer aux étapes suivantes, il peut être utile de tester ce premier stage pour s'assurer que tout fonctionne comme prévu. Cliquez sur **Create release** pour déclencher manuellement le déploiement.
+   - Surveillez l'exécution de la pipeline et assurez-vous que l'application est déployée sans erreurs dans l'environnement de développement.
+
+---
+
+### 🟡 Partie 8 : Ajout du Composant QA à la Release Pipeline
+
+Après avoir configuré le stage de développement, l'étape suivante consiste à ajouter un stage similaire pour l'environnement de **Qualité (QA)**. Cela permettra de déployer l'application sur un environnement de test après que le déploiement dans l'environnement de développement a été validé.
+
+#### Objectifs de la Partie 8
+- **Cloner le stage de développement** pour le réutiliser dans l'environnement QA.
+- **Adapter la configuration** pour l'environnement QA.
+- **Tester le déploiement** vers l'environnement QA pour vérifier son bon fonctionnement.
+
+#### 1️⃣ Cloner le Stage de Développement
+
+1. **Clonage du Stage** :
+   - Pour gagner du temps et minimiser les erreurs, nous allons cloner le stage de développement.
+   - Passez la souris sur le stage "Développement" et cliquez sur l'icône **Clone**. Cela duplique tous les paramètres et tâches associées au stage de développement.
+
+2. **Renommer le Stage Cloné** :
+   - Renommez le stage cloné en "QA" pour indiquer qu'il s'agit du déploiement vers l'environnement de Qualité.
+   - Assurez-vous que le nom du stage reflète clairement son objectif.
+
+#### 2️⃣ Configurer le Stage QA
+
+1. **Mise à Jour des Paramètres** :
+   - Cliquez sur le stage "QA" pour ouvrir le panneau de configuration.
+   - Changez le nom du **App Service** pour qu'il corresponde à l'App Service de l'environnement QA, par exemple, `dss-helloworldapp-qa`.
+   - Si nécessaire, ajustez d'autres paramètres spécifiques à cet environnement, comme les transformations de fichiers ou les variables spécifiques à l'environnement de QA.
+
+2. **Sauvegarder et Finaliser le Stage** :
+   - Une fois toutes les configurations terminées pour le stage QA, cliquez sur **Save**.
+   - Vérifiez qu'il n'y a pas d'erreurs ou de configurations manquantes dans ce stage.
+
+#### 3️⃣ Validation du Composant QA
+
+1. **Vérification du Stage QA** :
+   - Assurez-vous que le stage QA est correctement lié à l'artifact et qu'il est configuré pour se déclencher après le stage de développement.
+   - Surveillez le pipeline pour s'assurer qu'il fonctionne comme prévu.
+
+2. **Test de Déploiement** :
+   - Testez le déploiement en créant une nouvelle release et en observant si l'application se déploie correctement dans l'environnement QA après le déploiement réussi dans l'environnement de développement.
+   - Vérifiez l'application déployée dans l'environnement QA pour vous assurer que tout fonctionne comme attendu.
+
+
+
+- Avec ces étapes, vous avez maintenant configuré les deux premiers composants essentiels de votre release pipeline dans Azure DevOps. Ces configurations permettent un déploiement fluide de votre application ASP.NET 7.0, d'abord dans un environnement de développement, puis dans un environnement de qualité.
+
+---
 
 
 
