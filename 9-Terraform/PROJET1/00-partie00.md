@@ -93,5 +93,3 @@ Si vous prévoyez d'utiliser Terraform pour gérer EC2, S3, RDS, et Lambda, vous
 
 ### **Remarque**
 Il est recommandé de toujours suivre le principe du moindre privilège, c'est-à-dire de ne donner que les permissions strictement nécessaires pour exécuter les tâches prévues. Si vous n'êtes pas certain des permissions spécifiques dont vous avez besoin, commencez avec des politiques plus restrictives et ajoutez des permissions au fur et à mesure que vous rencontrez des limitations.
-
-Si vous avez besoin d'une aide supplémentaire ou d'autres détails, n'hésitez pas à me demander!
