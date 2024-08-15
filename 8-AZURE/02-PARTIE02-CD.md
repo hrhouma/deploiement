@@ -219,6 +219,81 @@ Dans cette partie, vous avez appris à créer une application Web sur **Azure Ap
 
 ---
 
+
+# 🟡 Partie 6 : Création d'une Release Pipeline pour une Application ASP.NET 7.0
+
+Dans cette partie, nous allons configurer une **Release Pipeline** dans **Azure DevOps** pour déployer notre application **ASP.NET 7.0** sur les environnements que nous avons créés (Développement, Qualité, Production). Nous allons également établir une connexion entre **Azure DevOps** et nos applications Web hébergées sur **Azure Portal**.
+
+## 1️⃣ Préparation de la Connexion Azure DevOps - Azure
+
+Avant de créer la Release Pipeline, nous devons configurer une connexion entre **Azure DevOps** et **Azure** afin que la pipeline puisse déployer automatiquement l'application sur les environnements appropriés.
+
+### 🔹 Étape 1 : Accéder aux Paramètres du Projet
+Accédez à votre projet **Azure DevOps** et sélectionnez **Project Settings** dans le menu latéral gauche.
+
+### 🔹 Étape 2 : Créer une Nouvelle Connexion de Service
+1. Dans le menu **Pipelines** sous **Service connections**, cliquez sur **New service connection**.
+2. Choisissez **Azure Resource Manager** comme type de connexion, car cela vous permettra de gérer les ressources Azure (comme les App Services) à partir d'Azure DevOps.
+3. Sélectionnez la méthode d'authentification **Workload Identity Federation (Automatic)**, ce qui est recommandé pour une connexion automatique.
+4. Configurez le niveau de portée (Scope level) sur **Subscription** et sélectionnez votre abonnement Azure dans la liste déroulante.
+5. Assurez-vous de cocher l'option **Grant access permission to all pipelines** pour permettre à toutes les pipelines d'utiliser cette connexion.
+6. Donnez un nom à la connexion de service pour l'identifier facilement (par exemple, `VSS-S3`), puis cliquez sur **Save** pour créer la connexion.
+
+## 2️⃣ Création de la Release Pipeline
+
+Maintenant que la connexion est établie, nous allons créer la **Release Pipeline**.
+
+### 🔹 Étape 1 : Créer une Nouvelle Release Pipeline
+1. Dans le menu **Pipelines**, allez à **Releases** et cliquez sur **New pipeline** pour commencer.
+2. Sélectionnez **Empty job** pour commencer à partir de zéro.
+
+### 🔹 Étape 2 : Configurer l'Environnement de Déploiement
+1. Dans la nouvelle release, commencez par ajouter un **stage** en cliquant sur **Add a stage**.
+2. Nommez ce stage, par exemple **Dev Deployment**, pour représenter le déploiement sur l'environnement de développement.
+3. Choisissez **Azure App Service deployment** comme tâche pour ce stage. Cela permettra de déployer directement sur l'App Service que vous avez configuré pour le développement.
+
+### 🔹 Étape 3 : Configurer les Détails du Déploiement
+1. Sélectionnez la **connexion de service** que vous avez créée précédemment (`VSS-S3`).
+2. Sélectionnez l'**App Service** correspondant à l'environnement de développement (par exemple, `dss-helloworldapp-dev`).
+3. Configurez les autres options selon les besoins spécifiques de votre déploiement, comme le **package ou dossier** à déployer, qui peut être référencé depuis **Azure Artifacts** ou une **pipeline build**.
+
+### 🔹 Étape 4 : Configurer les Environnements QA et Prod
+1. Ajoutez un autre **stage** pour **QA Deployment** en suivant les mêmes étapes que pour le développement, en sélectionnant cette fois-ci l'App Service de qualité (`dss-helloworldapp-qa`).
+2. Répétez pour l'environnement de **Production**, en sélectionnant l'App Service de production (`dss-helloworldapp-prod`).
+
+## 3️⃣ Déclencheurs et Conditions
+
+Vous pouvez définir des déclencheurs pour cette release pipeline, par exemple, déclencher automatiquement le déploiement dans l'environnement de **Développement** après chaque **build** réussi. Les environnements de **QA** et **Production** peuvent être configurés pour nécessiter une approbation manuelle avant le déploiement.
+
+### 🔹 Étape 1 : Ajouter un Déclencheur Automatique
+1. Dans l'onglet **Triggers** de chaque stage, vous pouvez configurer un déclencheur automatique basé sur la réussite d'une build.
+2. Vous pouvez également ajouter des conditions d'approbation pour le passage aux étapes suivantes.
+
+## 4️⃣ Sauvegarde et Exécution
+
+- Une fois que tout est configuré, cliquez sur **Save** pour enregistrer la release pipeline. Vous pouvez maintenant exécuter la pipeline et observer le déploiement de l'application sur les environnements respectifs.
+- Vous avez maintenant une **Release Pipeline** configurée pour déployer automatiquement votre application **ASP.NET 7.0** sur Azure. Cette configuration vous permet d'avoir un processus de déploiement continu fiable et répétable, garantissant que vos applications sont déployées de manière cohérente sur tous les environnements.
+
+
+ ---
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 📝 **Résumé**
 
 Vous avez maintenant créé trois applications Web Azure, chacune destinée à un environnement différent : **Développement**, **Qualité**, et **Production**. Chaque application est configurée avec des paramètres spécifiques et surveillée via **Application Insights** pour garantir des performances optimales dans chaque environnement.
