@@ -1,1 +1,2 @@
-
+- https://aex.dev.azure.com/
+- https://portal.azure.com/
