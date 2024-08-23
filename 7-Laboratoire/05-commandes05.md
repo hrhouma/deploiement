@@ -217,3 +217,43 @@ docker inspect network bridge  # Affiche les informations réseau du pont Docker
 # Utiliser les consoles AWS ECS et CodeDeploy pour surveiller l'état des déploiements et services.
 ```
 
+# Annexes : 
+
+### Résumé des Explications : 
+
+#### 1. **ECR (Elastic Container Registry) :**
+   - ECR est un service entièrement géré par AWS, conçu pour stocker, gérer et déployer des images Docker. Il s'intègre facilement dans l'infrastructure AWS et fonctionne de manière indépendante des instances que vous pouvez déployer. Cependant, il est souvent utilisé conjointement avec des services comme Amazon ECS (Elastic Container Service) ou EKS (Elastic Kubernetes Service) qui, eux, fonctionnent sur des instances.
+
+#### 2. **AWS STS (Security Token Service) :**
+   - AWS STS permet de créer des jetons d'accès temporaires pour des utilisateurs IAM ou des rôles. Ces jetons temporaires peuvent être utilisés pour accéder à des ressources AWS de manière sécurisée pour une durée limitée. Cela renforce la sécurité en minimisant les risques associés à l'exposition prolongée des clés d'accès. AWS STS est généralement utilisé pour créer des identités temporaires avec des permissions spécifiques pour accéder aux services et ressources AWS.
+
+#### 3. **ECS (Elastic Container Service) et AWS Fargate :**
+   - **ECS** est un service de gestion des conteneurs qui vous permet de déployer, gérer et faire évoluer des applications conteneurisées.
+   - **AWS Fargate** est une technologie qui vous permet de déployer des conteneurs sans gérer les serveurs sous-jacents. Avec Fargate, vous définissez simplement les besoins en CPU et mémoire, et AWS s'occupe de tout le reste, simplifiant ainsi le déploiement des applications. Pour créer un cluster AWS Fargate, il est essentiel de spécifier des paramètres tels que le VPC, les sous-réseaux, les groupes de sécurité, et les rôles IAM.
+
+#### 4. **Load Balancer (ALB) :**
+   - Le Load Balancer (équilibreur de charge) est une technologie qui répartit automatiquement les requêtes des utilisateurs entre plusieurs serveurs pour éviter qu'un seul serveur ne soit surchargé. Cela garantit que les applications restent performantes et que les utilisateurs sont servis rapidement.
+   - Les écouteurs (listeners) sur l'ALB permettent de diriger le trafic entrant vers différents groupes cibles en fonction des ports qu'ils utilisent, optimisant ainsi la répartition de la charge et assurant que chaque service réponde aux requêtes appropriées.
+
+#### 5. **Exemple de Scénario avec Load Balancer :**
+   - **Fonctionnement des écouteurs** : Deux écouteurs sont configurés sur l'ALB, chacun gérant un flux de trafic distinct :
+     - HTTP:80 ➔ `customer-tg-two` : Gère les requêtes HTTP standards pour les clients.
+     - HTTP:8080 ➔ `customer-tg-one` : Gère les requêtes HTTP sur le port 8080 pour les clients.
+     - HTTP:80 ➔ `/admin/*` ➔ `employee-tg-two` : Redirige les requêtes administratives sur le port 80 vers le groupe cible des employés.
+     - HTTP:8080 ➔ `/admin/*` ➔ `employee-tg-one` : Redirige les requêtes administratives sur le port 8080 vers un autre groupe cible des employés.
+
+#### 6. **Pipeline de Déploiement CI/CD :**
+   - **CodeCommit** : Gère le code source et les fichiers de configuration pour le déploiement.
+   - **CodePipeline et CodeDeploy** : Automatisent le flux de déploiement et le déploiement des conteneurs sur ECS Fargate.
+   - **ECR** : Contient les images Docker utilisées pour créer les conteneurs déployés.
+
+### Séquence de Déploiement
+1. **L'utilisateur final** envoie des requêtes HTTP/S via les ports 80 ou 8080 pour accéder aux microservices.
+2. **Application Load Balancer (ALB)** reçoit ces requêtes et redirige le trafic vers les conteneurs ECS appropriés en fonction des règles configurées.
+3. **ECS Fargate** exécute les conteneurs des microservices dans des sous-réseaux publics au sein d'un VPC.
+4. **CodeDeploy** déploie les microservices en conteneurs sur ECS Fargate.
+5. **CodePipeline** orchestre les étapes du processus de déploiement, en automatisant le flux de déploiement.
+6. **CodeCommit** stocke le code source et les fichiers de configuration nécessaires.
+7. **ECR** contient les images Docker utilisées pour créer les conteneurs.
+
+- Ces concepts et processus permettent une gestion efficace des microservices sur AWS, avec une attention particulière à la sécurité, la scalabilité, et l'automatisation des déploiements.
