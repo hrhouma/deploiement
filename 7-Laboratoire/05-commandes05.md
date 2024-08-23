@@ -242,6 +242,20 @@ docker inspect network bridge  # Affiche les informations réseau du pont Docker
      - HTTP:80 ➔ `/admin/*` ➔ `employee-tg-two` : Redirige les requêtes administratives sur le port 80 vers le groupe cible des employés.
      - HTTP:8080 ➔ `/admin/*` ➔ `employee-tg-one` : Redirige les requêtes administratives sur le port 8080 vers un autre groupe cible des employés.
 
+
+
+| Port           | Groupe cible       | Rôle                                                                                       | Exemple dans un restaurant                                                                                                       |
+|----------------|--------------------|--------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------|
+| **HTTP:80**    | **customer-tg-two** | Gère les requêtes HTTP standards pour les clients en production.                           | C'est comme la porte principale du restaurant où tous les clients réguliers entrent pour être servis dans des conditions normales. |
+| **HTTP:8080**  | **customer-tg-one** | Gère les requêtes HTTP sur le port 8080 pour les clients dans un environnement de test.     | C'est comme une entrée spéciale réservée aux clients qui participent à des tests de nouveaux plats ou services dans le restaurant. |
+| **HTTP:80**    | **employee-tg-two** | Redirige les requêtes administratives sur le port 80 vers les employés en production.       | C'est comme l'entrée principale pour les employés qui gèrent les opérations courantes du restaurant pendant les heures de service. |
+| **HTTP:8080**  | **employee-tg-one** | Redirige les requêtes administratives sur le port 8080 vers les employés en test.           | C'est comme une porte secondaire pour les employés qui testent de nouvelles recettes ou procédures en dehors des heures de service. | 
+
+### Explication supplémentaire :
+- **Production (HTTP:80)**: Ce port représente l'environnement de production où les opérations quotidiennes sont exécutées. C'est l'équivalent du restaurant en plein service, où tout est optimisé pour l'expérience client.
+- **Test (HTTP:8080)**: Ce port représente un environnement de test où des expériences ou des vérifications sont effectuées sans perturber les opérations principales. C'est comme un endroit où l'on expérimente de nouveaux éléments du menu ou de nouvelles méthodes de service, souvent en arrière-plan, pour s'assurer que tout est parfait avant de l'introduire au public.
+
+
 #### 6. **Pipeline de Déploiement CI/CD :**
    - **CodeCommit** : Gère le code source et les fichiers de configuration pour le déploiement.
    - **CodePipeline et CodeDeploy** : Automatisent le flux de déploiement et le déploiement des conteneurs sur ECS Fargate.
