@@ -1,4 +1,4 @@
-# **Maîtrise de Terraform : Gestion d'Infrastructure en tant que Code**
+# **Terraform : Gestion d'Infrastructure en tant que Code**
 
 1. <a href="#introduction-à-terraform">**Introduction à Terraform**</a>
    - <a href="#objectif">Objectif</a>
