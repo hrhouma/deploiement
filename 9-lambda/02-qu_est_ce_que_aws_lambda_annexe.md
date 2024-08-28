@@ -4,7 +4,7 @@
 
 AWS Lambda est un service de calcul serverless qui exécute votre code en réponse à des événements et alloue automatiquement les ressources nécessaires. Le terme "serverless" signifie que vous n'avez pas à gérer les serveurs ; tout est pris en charge par AWS.
 
-### Exemple Simple pour Débutants
+### Exemple Simple 
 
 Voici un exemple simple de fonction Lambda en Python. Cette fonction prend un événement en entrée, et renvoie un message "Hello from Lambda!".
 
