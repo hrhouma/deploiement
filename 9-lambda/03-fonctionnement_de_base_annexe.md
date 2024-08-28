@@ -4,7 +4,7 @@
 
 AWS Lambda exécute votre code en réponse à des événements, sans que vous ayez à gérer les serveurs. Voici comment cela fonctionne en détail.
 
-### Exemple pour Débutants
+### Exemple
 
 Imaginez que vous souhaitez créer une fonction qui lit des données depuis un bucket S3 lorsque de nouveaux fichiers sont ajoutés. Voici comment vous pourriez écrire cette fonction en Python :
 
