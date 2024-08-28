@@ -4,7 +4,7 @@
 
 Une fonction Lambda est essentiellement un morceau de code qui s'exécute en réponse à un événement déclencheur. Cela signifie que vous écrivez du code, l'uploadez sur AWS Lambda, et AWS s'occupe de tout le reste, comme la gestion des serveurs ou la scalabilité.
 
-### Exemple Simple pour Débutants
+### Exemple Simple 
 
 Imaginons que vous souhaitez créer une fonction Lambda qui retourne un message "Hello, World!" lorsqu'elle est déclenchée. Voici comment vous pourriez écrire cette fonction en Python :
 
