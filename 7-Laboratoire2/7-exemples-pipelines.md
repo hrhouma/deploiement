@@ -660,3 +660,132 @@ pipeline {
     }
 }
 ```
+
+----
+
+-----
+
+---
+# **EXEMPLE 8: AWS CloudFormation (Flask App with Docker and ECR)**
+-------
+# modèle CloudFormation complet pour déployer une application Flask dans un repository ECR avec une tâche ECS Fargate
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Description: "Déploiement d'une application Flask avec Docker sur Amazon ECR via CloudFormation."
+
+Parameters:
+  RepositoryName:
+    Type: String
+    Default: "flask-app-repo"
+    Description: "Nom du repository ECR pour l'application Flask."
+
+Resources:
+  FlaskAppECRRepository:
+    Type: "AWS::ECR::Repository"
+    Properties: 
+      RepositoryName: !Ref RepositoryName
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [
+              {
+                "rulePriority": 1,
+                "description": "Expire images older than 30 days",
+                "selection": {
+                  "tagStatus": "any",
+                  "countType": "sinceImagePushed",
+                  "countUnit": "days",
+                  "countNumber": 30
+                },
+                "action": {
+                  "type": "expire"
+                }
+              }
+            ]
+          }
+
+  FlaskAppTaskExecutionRole:
+    Type: "AWS::IAM::Role"
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ecs-tasks.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: "ECSTaskExecutionRolePolicy"
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ecr:GetDownloadUrlForLayer
+                  - ecr:BatchCheckLayerAvailability
+                  - ecr:BatchGetImage
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: "*"
+
+  FlaskAppCluster:
+    Type: "AWS::ECS::Cluster"
+    Properties: 
+      ClusterName: "FlaskAppCluster"
+
+  FlaskAppTaskDefinition:
+    Type: "AWS::ECS::TaskDefinition"
+    Properties: 
+      Family: "FlaskAppTaskDefinition"
+      Cpu: "256"
+      Memory: "512"
+      NetworkMode: "awsvpc"
+      RequiresCompatibilities: 
+        - FARGATE
+      ExecutionRoleArn: !GetAtt FlaskAppTaskExecutionRole.Arn
+      ContainerDefinitions:
+        - Name: "flask-app"
+          Image: !Sub "${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${RepositoryName}:latest"
+          Essential: true
+          PortMappings:
+            - ContainerPort: 5000
+          LogConfiguration:
+            LogDriver: "awslogs"
+            Options:
+              awslogs-group: "/ecs/flask-app"
+              awslogs-region: !Ref "AWS::Region"
+              awslogs-stream-prefix: "ecs"
+
+  FlaskAppService:
+    Type: "AWS::ECS::Service"
+    Properties: 
+      Cluster: !Ref FlaskAppCluster
+      DesiredCount: 1
+      TaskDefinition: !Ref FlaskAppTaskDefinition
+      LaunchType: "FARGATE"
+      NetworkConfiguration:
+        AwsvpcConfiguration:
+          AssignPublicIp: ENABLED
+          SecurityGroups: 
+            - !Ref FlaskAppSecurityGroup
+          Subnets: 
+            - !Ref PublicSubnet
+
+  FlaskAppSecurityGroup:
+    Type: "AWS::EC2::SecurityGroup"
+    Properties:
+      GroupDescription: "Autoriser l'accès HTTP pour l'application Flask"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: "0.0.0.0/0"
+
+Outputs:
+  ECRRepositoryUri:
+    Description: "URI du repository ECR pour l'application Flask"
+    Value: !GetAtt FlaskAppECRRepository.RepositoryUri
+```
+
