@@ -668,7 +668,7 @@ pipeline {
 ---
 # **EXEMPLE 8: AWS CloudFormation (Flask App with Docker and ECR)**
 -------
-# modèle CloudFormation complet pour déployer une application Flask dans un repository ECR avec une tâche ECS Fargate
+# Modèle CloudFormation  pour déployer une application Flask dans un repository ECR avec une tâche ECS Fargate
 
 ```yaml
 AWSTemplateFormatVersion: '2010-09-09'
